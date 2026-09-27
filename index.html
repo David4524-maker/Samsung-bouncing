@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Samsung DVD</title>
+<link rel="icon" type="image/x-icon" href="samsung_ico.ico">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;overflow:hidden;background:#000}
+  #stage{
+    position:relative;
+    width:100vw;
+    height:100vh;
+    background:#000;
+    overflow:hidden;
+  }
+  #sprite{
+    position:absolute;
+    left:0;
+    top:0;
+    will-change:left,top;
+    user-select:none;
+    pointer-events:none;
+  }
+  #sprite svg{display:block}
+</style>
+</head>
+<body>
+  <div id="stage">
+    <div id="sprite"></div>
+  </div>
+
+<script>
+const stage  = document.getElementById('stage');
+const sprite = document.getElementById('sprite');
+
+/* Logo SAMSUNG (blanco, sin inclinación, "A" como V invertida, glow tenue) */
+sprite.innerHTML = `
+<svg viewBox="0 0 620 150" width="260" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="1.4" result="b"/>
+      <feMerge>
+        <feMergeNode in="b"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <text x="310" y="100" text-anchor="middle"
+        font-family="'Arial Black','Helvetica Neue',Arial,sans-serif"
+        font-size="90" font-weight="900"
+        letter-spacing="-1"
+        fill="#ffffff" filter="url(#glow)">SΛMSUNG</text>
+</svg>`;
+
+/* Estado */
+let x = 120, y = 100;
+let vx = 1.0, vy = 0.8;   /* velocidad lenta */
+
+function loop(){
+  const w = sprite.offsetWidth;
+  const h = sprite.offsetHeight;
+  const sw = stage.clientWidth;
+  const sh = stage.clientHeight;
+
+  x += vx;
+  y += vy;
+
+  if (x <= 0)          { x = 0;          vx =  Math.abs(vx); }
+  else if (x + w >= sw){ x = sw - w;     vx = -Math.abs(vx); }
+
+  if (y <= 0)          { y = 0;          vy =  Math.abs(vy); }
+  else if (y + h >= sh){ y = sh - h;     vy = -Math.abs(vy); }
+
+  sprite.style.left = x + 'px';
+  sprite.style.top  = y + 'px';
+
+  requestAnimationFrame(loop);
+}
+
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>
