@@ -11,3 +11,9 @@
 ---
 
 ### Ver logo de DVD rebotar: [bouncingdvdlogo.com](https://bouncingdvdlogo.com/)
+
+---
+
+## ¿En donde corrre?
+
+Obviamente, en el `Navegador`
